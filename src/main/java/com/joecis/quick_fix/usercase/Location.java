@@ -1,16 +1,21 @@
 package com.joecis.quick_fix.usercase;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
+@Entity
 public class Location {
     
     @Id
     @GeneratedValue( strategy = GenerationType.AUTO)
     Long id;
     
+    @Column(nullable = false)
     private Double lat;
+    @Column(nullable = false)
     private Double lon;
 
     public Location(Long id, Double lat, Double lon) {

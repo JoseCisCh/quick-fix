@@ -2,6 +2,7 @@ package com.joecis.quick_fix.rating;
 
 import com.joecis.quick_fix.user.User;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -20,7 +21,7 @@ public class Rating {
     int value;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false)
     User user;
 
     public Rating() {

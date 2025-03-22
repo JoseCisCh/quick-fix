@@ -3,8 +3,10 @@ package com.joecis.quick_fix.user;
 import java.util.Set;
 
 import com.joecis.quick_fix.rating.Rating;
+import com.joecis.quick_fix.usercase.UserCase;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -19,13 +21,20 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     Long id;
+    @Column(nullable = false)
     String email;
+    @Column(nullable = false)
     String firstName;
+    @Column(nullable = false)
     String lastName;
+    @Column(nullable = false)
     String password;
 
     @OneToMany(cascade = CascadeType.ALL ,mappedBy = "user")
     private Set<Rating> ratings;
+
+    @OneToMany( cascade = CascadeType.ALL, mappedBy = "create_user")
+    private Set<UserCase> usercases;
 
     public User() {
     }
@@ -76,6 +85,22 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Set<Rating> getRatings() {
+        return ratings;
+    }
+
+    public void setRatings(Set<Rating> ratings) {
+        this.ratings = ratings;
+    }
+
+    public Set<UserCase> getCases() {
+        return cases;
+    }
+
+    public void setCases(Set<UserCase> cases) {
+        this.cases = cases;
     }
 
 }

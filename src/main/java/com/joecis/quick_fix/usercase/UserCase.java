@@ -5,15 +5,19 @@ import java.util.Set;
 
 import com.joecis.quick_fix.user.User;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.Size;
 
+@Entity
 public class UserCase {
 
     @Id
@@ -28,21 +32,25 @@ public class UserCase {
     @Column(nullable = false)
     private String description;
 
+    @Column(nullable = false)
     private LocalDateTime create_date;
     private LocalDateTime modified_date;
+
+    @OneToOne( cascade = CascadeType.ALL)
     private Location location;
 
-    @OneToMany( mappedBy = "user_case")
+    @OneToMany( cascade = CascadeType.ALL)
     private Set<Image> images;
 
     @ManyToOne
-    @JoinColumn(name = "create_id")
+    @JoinColumn(name = "create_user_id", nullable = false)
     private User create_user;
 
     @ManyToOne
-    @JoinColumn(name = "solver_id")
+    @JoinColumn(name = "solver_user_id")
     private User solver_user;
 
+    @Column(nullable = false)
     private UserCaseStatus status;
     
     public UserCase() {
