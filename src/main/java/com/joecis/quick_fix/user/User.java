@@ -96,11 +96,11 @@ public class User {
     }
 
     public Set<UserCase> getCases() {
-        return cases;
+        return usercases;
     }
 
     public void setCases(Set<UserCase> cases) {
-        this.cases = cases;
+        this.usercases = cases;
     }
 
 }
