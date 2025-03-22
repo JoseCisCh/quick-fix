@@ -4,6 +4,7 @@ import java.util.Set;
 
 import com.joecis.quick_fix.rating.Rating;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -12,7 +13,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "User")
+@Table(name = "AppUser")
 public class User {
 
     @Id
@@ -23,7 +24,7 @@ public class User {
     String lastName;
     String password;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(cascade = CascadeType.ALL ,mappedBy = "user")
     private Set<Rating> ratings;
 
     public User() {
