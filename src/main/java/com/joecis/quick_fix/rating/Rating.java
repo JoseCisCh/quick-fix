@@ -2,7 +2,6 @@ package com.joecis.quick_fix.rating;
 
 import com.joecis.quick_fix.user.User;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -24,6 +23,12 @@ public class Rating {
     @JoinColumn(name = "user_id", nullable = false)
     User user;
 
+    public Rating(Long id, int value, User user) {
+        this.id = id;
+        this.value = value;
+        this.user = user;
+    }
+
     public Rating() {
     }
 
@@ -43,4 +48,17 @@ public class Rating {
     public void setValue(int value) {
         this.value = value;
     }
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    @Override
+    public String toString() {
+        return "Rating [id=" + id + ", value=" + value +  "]";
+    }
+
 }

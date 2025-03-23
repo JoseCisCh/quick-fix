@@ -8,6 +8,7 @@ import com.joecis.quick_fix.usercase.UserCase;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -30,13 +31,31 @@ public class User {
     @Column(nullable = false)
     String password;
 
-    @OneToMany(cascade = CascadeType.ALL ,mappedBy = "user")
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "user")
     private Set<Rating> ratings;
 
-    @OneToMany( cascade = CascadeType.ALL, mappedBy = "create_user")
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "create_user")
     private Set<UserCase> usercases;
 
     public User() {
+    }
+
+    public User(String email, String firstName, String lastName, String password) {
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.password = password;
+    }
+
+    public User(Long id, String email, String firstName, String lastName, String password, Set<Rating> ratings,
+            Set<UserCase> usercases) {
+        this.id = id;
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.password = password;
+        this.ratings = ratings;
+        this.usercases = usercases;
     }
 
     public User(Long id, String email, String firstName, String lastName, String password) {
@@ -101,6 +120,13 @@ public class User {
 
     public void setCases(Set<UserCase> cases) {
         this.usercases = cases;
+    }
+
+    @Override
+    public String toString() {
+        return "User [id=" + id + ", email=" + email + ", firstName=" + firstName + ", lastName=" + lastName
+                + ", password=" + password + ", ratings=" + (ratings != null ? ratings.toString()
+                        : "[]") + ", usercases=" + (usercases != null ? usercases.toString() : "[]") + "]";
     }
 
 }

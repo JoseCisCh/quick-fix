@@ -50,5 +50,10 @@ public class Location {
     public void setLon(Double lon) {
         this.lon = lon;
     }
+
+    @Override
+    public String toString() {
+        return "Location [id=" + id + ", lat=" + lat + ", lon=" + lon + "]";
+    }
 }
 

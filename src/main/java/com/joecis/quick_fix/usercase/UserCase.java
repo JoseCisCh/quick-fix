@@ -157,4 +157,11 @@ public class UserCase {
         this.status = status;
     }
 
+    @Override
+    public String toString() {
+        return "UserCase [id=" + id + ", title=" + title + ", description=" + description + ", create_date="
+                + create_date + ", modified_date=" + modified_date + ", location=" + location.toString() + ", images=" + images.toString()
+                + ", create_user=" + create_user + ", solver_user=" + solver_user + ", status=" + status + "]";
+    }
+
 }
