@@ -31,7 +31,7 @@ public class User {
     @Column(nullable = false)
     String password;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "user")
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Rating> ratings;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "create_user")
@@ -125,8 +125,14 @@ public class User {
     @Override
     public String toString() {
         return "User [id=" + id + ", email=" + email + ", firstName=" + firstName + ", lastName=" + lastName
+                + ", password=" + password + "]";
+    }
+
+    /*@Override
+    public String toString() {
+        return "User [id=" + id + ", email=" + email + ", firstName=" + firstName + ", lastName=" + lastName
                 + ", password=" + password + ", ratings=" + (getRatings() != null ? getRatings().toString()
                         : "[]") + ", usercases=" + (getCases() != null ? getCases().toString() : "[]") + "]";
-    }
+    }*/
 
 }

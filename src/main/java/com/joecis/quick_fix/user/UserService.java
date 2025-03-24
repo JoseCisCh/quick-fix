@@ -1,5 +1,6 @@
 package com.joecis.quick_fix.user;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -38,6 +39,15 @@ public class UserService {
             return user; 
         } 
 
+    }
+
+    public List<User> getAllUsers() {
+        return this.userRepository.findAll();
+    }
+
+    public User createUser(User user) {
+        userRepository.save(user);
+        return user;
     }
 
 }
