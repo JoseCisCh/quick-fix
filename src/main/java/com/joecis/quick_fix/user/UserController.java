@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.joecis.quick_fix.DTO.UserDto;
+
 @RestController
 public class UserController {
     private UserService userService;
@@ -21,9 +23,9 @@ public class UserController {
     }
 
     @GetMapping("users/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable Long id) {
+    public ResponseEntity<UserDto> getUserById(@PathVariable Long id) {
         try {
-            User foundUser = userService.getById(id);
+            UserDto foundUser = userService.getById(id);
             return ResponseEntity.ok().body(foundUser);
         } catch(UserNotFoundException e) {
             return ResponseEntity.badRequest().body(null);

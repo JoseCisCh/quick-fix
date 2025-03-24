@@ -6,6 +6,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -17,7 +19,7 @@ public class Rating {
     Long id;
     int value;
 
-    /*@ManyToOne
+    @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     User user;
 
@@ -30,7 +32,7 @@ public class Rating {
         this.id = id;
         this.value = value;
         this.user = user;
-    }*/
+    }
 
 
     public Rating() {
@@ -56,13 +58,13 @@ public class Rating {
     public void setValue(int value) {
         this.value = value;
     }
-    /*public User getUser() {
+    public User getUser() {
         return user;
     }
 
     public void setUser(User user) {
         this.user = user;
-    }*/
+    }
 
     @Override
     public String toString() {

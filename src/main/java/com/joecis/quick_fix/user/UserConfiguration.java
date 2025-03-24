@@ -21,9 +21,9 @@ public class UserConfiguration {
             User newUser = new User("test@gmail.com", "Test FN", "Test LN", "password");
             LinkedHashSet<Rating> ratings =new LinkedHashSet<Rating>(); 
             userRepository.save(newUser);
-            ratings.add(new Rating(3));
-            ratings.add(new Rating(1));
-            ratings.add(new Rating(2));
+            ratings.add(new Rating(3, newUser));
+            ratings.add(new Rating(1, newUser));
+            ratings.add(new Rating(2, newUser));
             newUser.setRatings(ratings);
             userRepository.save(newUser);
             
@@ -31,9 +31,9 @@ public class UserConfiguration {
             newUser = new User("test@gmail.com", "Test FN", "Test LN", "password");
             ratings =new LinkedHashSet<Rating>(); 
             userRepository.save(newUser);
-            ratings.add(new Rating(4));
-            ratings.add(new Rating(5));
-            ratings.add(new Rating(2));
+            ratings.add(new Rating(4, newUser));
+            ratings.add(new Rating(5, newUser));
+            ratings.add(new Rating(2, newUser));
             newUser.setRatings(ratings);
             userRepository.save(newUser);
         };

@@ -2,9 +2,11 @@ package com.joecis.quick_fix.user;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+
+import com.joecis.quick_fix.DTO.UserDto;
 
 import jakarta.transaction.Transactional;
 
@@ -12,15 +14,19 @@ import jakarta.transaction.Transactional;
 public class UserService {
     
     private UserRepository userRepository;
+    private ModelMapper modelMapper;
 
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
+        this.modelMapper = new ModelMapper();
     }
     
-    public User getById(Long id) {
-        Optional<User> user = userRepository.findById(id);    
-        if(user.isPresent()) {
-            return user.get();
+    public UserDto getById(Long id) {
+        Optional<User> optUser = userRepository.findById(id);    
+        if(optUser.isPresent()) {
+            User user = optUser.get();
+
+            return  modelMapper.map(user, UserDto.class);
         } else {
             throw new UserNotFoundException(id);
         }
