@@ -53,6 +53,7 @@ public class UserCase {
     @Column(nullable = false)
     private UserCaseStatus status;
     
+
     public UserCase() {
     }
 
@@ -62,6 +63,16 @@ public class UserCase {
      *            be valid in Java 8 and manual validation would have to be done
      *            inside the constructor
      */
+    public UserCase(@Size(max = 40) String title, @Size(max = 255) String description, LocalDateTime create_date,
+        LocalDateTime modified_date, User create_user, UserCaseStatus status ) {
+        this.title = title;
+        this.description = description;
+        this.create_date = create_date;
+        this.modified_date = modified_date;
+        this.create_user = create_user;
+        this.status = status;
+    }
+
     public UserCase(Long id, @Size(max = 40) String title, @Size(max = 255) String description,
             LocalDateTime create_date, LocalDateTime modified_date, Location location, Set<Image> images,
             User create_user, User solver_user, UserCaseStatus status) {

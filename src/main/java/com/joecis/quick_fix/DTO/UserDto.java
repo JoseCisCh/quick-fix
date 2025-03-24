@@ -2,7 +2,6 @@ package com.joecis.quick_fix.DTO;
 
 import java.util.Set;
 
-import com.joecis.quick_fix.usercase.UserCase;
 
 public class UserDto {
     private Long id;
@@ -10,7 +9,7 @@ public class UserDto {
     private String firstName;
     private String lastName;
     private Set<RatingInfo> ratings;
-    private Set<UserCase> cases;
+    private Set<UserCaseInfo> cases;
 
     public Long getId() {
         return id;
@@ -42,10 +41,10 @@ public class UserDto {
     public void setRatings(Set<RatingInfo> ratings) {
         this.ratings = ratings;
     }
-    public Set<UserCase> getCases() {
+    public Set<UserCaseInfo> getCases() {
         return cases;
     }
-    public void setCases(Set<UserCase> cases) {
+    public void setCases(Set<UserCaseInfo> cases) {
         this.cases = cases;
     }
 }

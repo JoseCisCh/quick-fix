@@ -2,6 +2,7 @@ package com.joecis.quick_fix.user;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -25,7 +26,6 @@ public class UserService {
         Optional<User> optUser = userRepository.findById(id);    
         if(optUser.isPresent()) {
             User user = optUser.get();
-
             return  modelMapper.map(user, UserDto.class);
         } else {
             throw new UserNotFoundException(id);
@@ -47,8 +47,16 @@ public class UserService {
 
     }
 
-    public List<User> getAllUsers() {
-        return this.userRepository.findAll();
+    public List<UserDto> getAllUsers() {
+        List<User> users = this.userRepository.findAll();
+        List<UserDto> usersDto = users.stream()
+                                        .map(user -> {
+                                            return modelMapper.map(user, UserDto.class);
+                                        })
+                                        .collect(Collectors.toList());
+        System.out.println(usersDto);
+
+        return usersDto;
     }
 
     public User createUser(User user) {

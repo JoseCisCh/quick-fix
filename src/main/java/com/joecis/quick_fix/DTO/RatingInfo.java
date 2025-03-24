@@ -3,6 +3,7 @@ package com.joecis.quick_fix.DTO;
 public class RatingInfo {
     private Long id;
     private int value;
+    private Long userId;
 
     public Long getId() {
         return id;
@@ -15,5 +16,12 @@ public class RatingInfo {
     }
     public void setValue(int value) {
         this.value = value;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 }
