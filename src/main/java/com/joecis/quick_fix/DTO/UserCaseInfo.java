@@ -18,7 +18,7 @@ public class UserCaseInfo {
     private Set<Image> images;
     private UserCaseStatus status;
     private Long createUserId;
-    private Long solver_user_id;
+    private Long solverUserId;
 
     public Long getId() {
         return id;
@@ -69,17 +69,17 @@ public class UserCaseInfo {
         this.status = status;
     }
 
-    public Long getCreate_user_id() {
+    public Long getCreateUserId() {
         return createUserId;
     }
-    public void setCreate_user_id(Long create_user_id) {
-        this.createUserId = create_user_id;
+    public void setCreateUserId(Long createUserId) {
+        this.createUserId = createUserId;
     }
 
-    public Long getSolver_user_id() {
-        return solver_user_id;
+    public Long getSolverUserId() {
+        return solverUserId;
     }
-    public void setSolver_user_id(Long solver_user_id) {
-        this.solver_user_id = solver_user_id;
+    public void setSolverUserId(Long solverUserId) {
+        this.solverUserId = solverUserId;
     }
 }

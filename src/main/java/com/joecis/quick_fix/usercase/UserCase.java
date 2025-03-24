@@ -43,16 +43,27 @@ public class UserCase {
     private Set<Image> images;
 
     @ManyToOne
-    @JoinColumn(name = "create_user_id", nullable = false)
-    private User create_user;
+    @JoinColumn(name = "createUserId", nullable = false)
+    private User createUser;
 
     @ManyToOne
-    @JoinColumn(name = "solver_user_id")
-    private User solver_user;
+    @JoinColumn(name = "solverUserid")
+    private User solverUser;
 
     @Column(nullable = false)
     private UserCaseStatus status;
     
+
+    public UserCase(@Size(max = 40) String title, @Size(max = 255) String description, LocalDateTime create_date,
+            LocalDateTime modified_date, User createUser, User solverUser, UserCaseStatus status) {
+        this.title = title;
+        this.description = description;
+        this.create_date = create_date;
+        this.modified_date = modified_date;
+        this.createUser = createUser;
+        this.solverUser = solverUser;
+        this.status = status;
+    }
 
     public UserCase() {
     }
@@ -69,7 +80,7 @@ public class UserCase {
         this.description = description;
         this.create_date = create_date;
         this.modified_date = modified_date;
-        this.create_user = create_user;
+        this.createUser = create_user;
         this.status = status;
     }
 
@@ -83,8 +94,8 @@ public class UserCase {
         this.modified_date = modified_date;
         this.location = location;
         this.images = images;
-        this.create_user = create_user;
-        this.solver_user = solver_user;
+        this.createUser = create_user;
+        this.solverUser = solver_user;
         this.status = status;
     }
 
@@ -144,20 +155,20 @@ public class UserCase {
         this.images = images;
     }
 
-    public User getCreate_user() {
-        return create_user;
+    public User getCreateUser() {
+        return createUser;
     }
 
-    public void setCreate_user(User create_user) {
-        this.create_user = create_user;
+    public void setCreateUser(User create_user) {
+        this.createUser = create_user;
     }
 
     public User getSolver_user() {
-        return solver_user;
+        return solverUser;
     }
 
     public void setSolver_user(User solver_user) {
-        this.solver_user = solver_user;
+        this.solverUser = solver_user;
     }
 
     public UserCaseStatus getStatus() {
@@ -172,7 +183,7 @@ public class UserCase {
     public String toString() {
         return "UserCase [id=" + id + ", title=" + title + ", description=" + description + ", create_date="
                 + create_date + ", modified_date=" + modified_date + ", location=" + location.toString() + ", images=" + images.toString()
-                + ", create_user=" + create_user + ", solver_user=" + solver_user + ", status=" + status + "]";
+                + ", create_user=" + createUser + ", solver_user=" + solverUser + ", status=" + status + "]";
     }
 
 }

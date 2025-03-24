@@ -22,6 +22,7 @@ public class UserConfiguration {
 
             // Creating user 1
             User newUser = new User("test@gmail.com", "Test FN", "Test LN", "password");
+            User userOne = newUser;
             LinkedHashSet<Rating> ratings =new LinkedHashSet<Rating>(); 
             LinkedHashSet<UserCase> userCases = new LinkedHashSet<UserCase>();
             userRepository.save(newUser);
@@ -46,9 +47,10 @@ public class UserConfiguration {
             ratings.add(new Rating(5, newUser));
             ratings.add(new Rating(2, newUser));
 
-            userCases.add(new UserCase("Problem 4", "Problem 4 desc", LocalDateTime.now(), LocalDateTime.now(), newUser, UserCaseStatus.PENDING_TO_ASSIGN_SOLVER));
+            userCases.add(new UserCase("Problem 4", "Problem 4 desc", LocalDateTime.now(), LocalDateTime.now(), newUser, userOne,UserCaseStatus.PENDING_TO_ASSIGN_SOLVER));
             userCases.add(new UserCase("Problem 5", "Problem 5 desc", LocalDateTime.now(), LocalDateTime.now(), newUser, UserCaseStatus.PENDING_TO_ASSIGN_SOLVER));
             userCases.add(new UserCase("Problem 6", "Problem 6 desc", LocalDateTime.now(), LocalDateTime.now(), newUser, UserCaseStatus.PENDING_TO_ASSIGN_SOLVER));
+            userCases.add(new UserCase("Problem 7", "Problem 7 desc", LocalDateTime.now(), LocalDateTime.now(), newUser, userOne, UserCaseStatus.PENDING_TO_ASSIGN_SOLVER));
 
             newUser.setRatings(ratings);
             newUser.setCases(userCases);
