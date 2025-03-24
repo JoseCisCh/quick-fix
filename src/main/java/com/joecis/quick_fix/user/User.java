@@ -31,10 +31,10 @@ public class User {
     @Column(nullable = false)
     String password;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "user")
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "user")
     private Set<Rating> ratings;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "create_user")
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "create_user")
     private Set<UserCase> usercases;
 
     public User() {
@@ -125,8 +125,8 @@ public class User {
     @Override
     public String toString() {
         return "User [id=" + id + ", email=" + email + ", firstName=" + firstName + ", lastName=" + lastName
-                + ", password=" + password + ", ratings=" + (ratings != null ? ratings.toString()
-                        : "[]") + ", usercases=" + (usercases != null ? usercases.toString() : "[]") + "]";
+                + ", password=" + password + ", ratings=" + (getRatings() != null ? getRatings().toString()
+                        : "[]") + ", usercases=" + (getCases() != null ? getCases().toString() : "[]") + "]";
     }
 
 }

@@ -23,6 +23,11 @@ public class Rating {
     @JoinColumn(name = "user_id", nullable = false)
     User user;
 
+    public Rating(int value, User user) {
+        this.value = value;
+        this.user = user;
+    }
+
     public Rating(Long id, int value, User user) {
         this.id = id;
         this.value = value;

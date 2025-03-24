@@ -7,24 +7,22 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.joecis.quick_fix.rating.Rating;
-import com.joecis.quick_fix.usercase.UserCase;
+
 
 @Configuration
 public class UserConfiguration {
 
     @Bean
-    public CommandLineRunner demo(UserRepository userRepository) {
+    public CommandLineRunner demo(UserRepository userRepository, UserService userService) {
         return (args) -> {
             // Creating users
             User newUser = new User("test@gmail.com", "Test FN", "Test LN", "password");
-            newUser.setRatings(new LinkedHashSet<Rating>());
-            newUser.setCases(new LinkedHashSet<UserCase>());
+            LinkedHashSet<Rating> ratings =new LinkedHashSet<Rating>(); 
             userRepository.save(newUser);
-
-            // Fetching all users
-            userRepository.findAll().forEach(user -> {
-                System.out.println(user.toString());
-            });;
+            ratings.add(new Rating(3, newUser));
+            newUser.setRatings(ratings);
+            userRepository.save(newUser);
+            
         };
     }
 }
