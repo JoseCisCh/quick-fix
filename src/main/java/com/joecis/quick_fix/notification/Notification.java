@@ -37,6 +37,16 @@ public class Notification {
     @JoinColumn(name = "usercase_id", nullable = false)
     private User usercase;
 
+    public Notification(NotificationType type, NotificationStatus status, LocalDateTime createDate, User sourceUser,
+            User destUser, User usercase) {
+        this.type = type;
+        this.status = status;
+        this.createDate = createDate;
+        this.sourceUser = sourceUser;
+        this.destUser = destUser;
+        this.usercase = usercase;
+    }
+
     public Notification(Long id, NotificationType type, NotificationStatus status, LocalDateTime createDate,
             User sourceUser, User destUser, User usercase) {
         this.id = id;
