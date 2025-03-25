@@ -2,6 +2,7 @@ package com.joecis.quick_fix.user;
 
 import java.util.Set;
 
+import com.joecis.quick_fix.notification.Notification;
 import com.joecis.quick_fix.rating.Rating;
 import com.joecis.quick_fix.usercase.UserCase;
 
@@ -36,6 +37,10 @@ public class User {
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "createUser")
     private Set<UserCase> usercases;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "destUser")
+    private Set<Notification> notifications;
+
 
     public User() {
     }
@@ -128,6 +133,13 @@ public class User {
                 + ", password=" + password + "]";
     }
 
+    public Set<Notification> getNotifications() {
+        return notifications;
+    }
+
+    public void setNotifications(Set<Notification> notifications) {
+        this.notifications = notifications;
+    }
     /*@Override
     public String toString() {
         return "User [id=" + id + ", email=" + email + ", firstName=" + firstName + ", lastName=" + lastName
