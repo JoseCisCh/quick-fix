@@ -10,6 +10,7 @@ public class UserDto {
     private String lastName;
     private Set<RatingInfo> ratings;
     private Set<UserCaseInfo> cases;
+    private Set<NotificationInfo> notifications;
 
     public Long getId() {
         return id;
@@ -46,5 +47,11 @@ public class UserDto {
     }
     public void setCases(Set<UserCaseInfo> cases) {
         this.cases = cases;
+    }
+    public Set<NotificationInfo> getNotifications() {
+        return notifications;
+    }
+    public void setNotifications(Set<NotificationInfo> notifications) {
+        this.notifications = notifications;
     }
 }
