@@ -1,6 +1,10 @@
 package com.joecis.quick_fix.user;
 
+import java.util.Collection;
 import java.util.Set;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import com.joecis.quick_fix.notification.Notification;
 import com.joecis.quick_fix.rating.Rating;
@@ -13,16 +17,20 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "AppUser")
-public class User {
+public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     Long id;
+    
+    @Column(nullable = false)
+    String username;
     @Column(nullable = false)
     String email;
     @Column(nullable = false)
@@ -31,6 +39,19 @@ public class User {
     String lastName;
     @Column(nullable = false)
     String password;
+
+    @Column(nullable = false)
+    boolean accountNonExpired;
+    @Column(nullable = false)
+    boolean accountNonLocked;
+    @Column(nullable = false)
+    boolean enabled;
+    @Column(nullable = false)
+    boolean credentialsNonExpired;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    Set<Role> authorities;
+
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "user")
     private Set<Rating> ratings;
@@ -41,6 +62,37 @@ public class User {
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "destUser")
     private Set<Notification> notifications;
 
+
+    public User(String username, String email, String firstName, String lastName, String password,
+            boolean accountNonExpired, boolean accountNonLocked, boolean enabled, boolean credentialsNonExpired) {
+        this.username = username;
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.password = password;
+        this.accountNonExpired = accountNonExpired;
+        this.accountNonLocked = accountNonLocked;
+        this.enabled = enabled;
+        this.credentialsNonExpired = credentialsNonExpired;
+    }
+
+    public User(Long id, String username, String email, String firstName, String lastName, String password,
+            boolean accountNonExpired, boolean accountNonLocked, boolean enabled, boolean credentialsNonExpired,
+            Set<Rating> ratings, Set<UserCase> usercases, Set<Notification> notifications) {
+        this.id = id;
+        this.username = username;
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.password = password;
+        this.accountNonExpired = accountNonExpired;
+        this.accountNonLocked = accountNonLocked;
+        this.enabled = enabled;
+        this.credentialsNonExpired = credentialsNonExpired;
+        this.ratings = ratings;
+        this.usercases = usercases;
+        this.notifications = notifications;
+    }
 
     public User() {
     }
@@ -103,6 +155,7 @@ public class User {
         this.lastName = lastName;
     }
 
+    @Override
     public String getPassword() {
         return password;
     }
@@ -146,5 +199,63 @@ public class User {
                 + ", password=" + password + ", ratings=" + (getRatings() != null ? getRatings().toString()
                         : "[]") + ", usercases=" + (getCases() != null ? getCases().toString() : "[]") + "]";
     }*/
+    
+    @Override
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return accountNonExpired;
+    }
+
+    public void setAccountNonExpired(boolean accountNonExpired) {
+        this.accountNonExpired = accountNonExpired;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return accountNonLocked;
+    }
+
+    public void setAccountNonLocked(boolean accountNonLocked) {
+        this.accountNonLocked = accountNonLocked;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return credentialsNonExpired;
+    }
+
+    public void setCredentialsNonExpired(boolean credentialsNonExpired) {
+        this.credentialsNonExpired = credentialsNonExpired;
+    }
+
+    public Set<UserCase> getUsercases() {
+        return usercases;
+    }
+
+    public void setUsercases(Set<UserCase> usercases) {
+        this.usercases = usercases;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return this.authorities;
+    }
 
 }
