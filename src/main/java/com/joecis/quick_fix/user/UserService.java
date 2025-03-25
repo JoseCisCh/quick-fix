@@ -17,11 +17,12 @@ public class UserService {
     private UserRepository userRepository;
     private ModelMapper modelMapper;
 
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, ModelMapper modelMapper) {
         this.userRepository = userRepository;
-        this.modelMapper = new ModelMapper();
+        this.modelMapper = modelMapper;
     }
     
+    @Transactional
     public UserDto getById(Long id) {
         Optional<User> optUser = userRepository.findById(id);    
         if(optUser.isPresent()) {
@@ -47,6 +48,7 @@ public class UserService {
 
     }
 
+    @Transactional
     public List<UserDto> getAllUsers() {
         List<User> users = this.userRepository.findAll();
         List<UserDto> usersDto = users.stream()
@@ -54,7 +56,6 @@ public class UserService {
                                             return modelMapper.map(user, UserDto.class);
                                         })
                                         .collect(Collectors.toList());
-        System.out.println(usersDto);
 
         return usersDto;
     }
