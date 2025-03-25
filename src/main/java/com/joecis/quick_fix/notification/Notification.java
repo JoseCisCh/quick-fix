@@ -3,6 +3,7 @@ package com.joecis.quick_fix.notification;
 import java.time.LocalDateTime;
 
 import com.joecis.quick_fix.user.User;
+import com.joecis.quick_fix.usercase.UserCase;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -35,10 +36,10 @@ public class Notification {
 
     @ManyToOne
     @JoinColumn(name = "usercase_id", nullable = false)
-    private User usercase;
+    private UserCase usercase;
 
     public Notification(NotificationType type, NotificationStatus status, LocalDateTime createDate, User sourceUser,
-            User destUser, User usercase) {
+            User destUser, UserCase usercase) {
         this.type = type;
         this.status = status;
         this.createDate = createDate;
@@ -48,7 +49,7 @@ public class Notification {
     }
 
     public Notification(Long id, NotificationType type, NotificationStatus status, LocalDateTime createDate,
-            User sourceUser, User destUser, User usercase) {
+            User sourceUser, User destUser, UserCase usercase) {
         this.id = id;
         this.type = type;
         this.status = status;
@@ -109,11 +110,11 @@ public class Notification {
         this.destUser = destUser;
     }
 
-    public User getUsercase() {
+    public UserCase getUsercase() {
         return usercase;
     }
 
-    public void setUsercase(User usercase) {
+    public void setUsercase(UserCase usercase) {
         this.usercase = usercase;
     }
 
