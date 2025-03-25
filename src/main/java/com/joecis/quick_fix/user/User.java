@@ -180,11 +180,6 @@ public class User implements UserDetails {
         this.usercases = cases;
     }
 
-    @Override
-    public String toString() {
-        return "User [id=" + id + ", email=" + email + ", firstName=" + firstName + ", lastName=" + lastName
-                + ", password=" + password + "]";
-    }
 
     public Set<Notification> getNotifications() {
         return notifications;
@@ -258,4 +253,13 @@ public class User implements UserDetails {
         return this.authorities;
     }
 
+    public void setAuthorities(Set<Role> roles) {
+        this.authorities = roles;
+    }
+
+    @Override
+    public String toString() {
+        return "User [id=" + id + ", email=" + email + ", firstName=" + firstName + ", lastName=" + lastName
+        + ", password=" + password + "]";
+    }
 }

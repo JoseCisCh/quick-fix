@@ -2,6 +2,8 @@ package com.joecis.quick_fix.DTO;
 
 import java.util.Set;
 
+import com.joecis.quick_fix.user.Role;
+
 
 public class UserDto {
     private Long id;
@@ -11,6 +13,7 @@ public class UserDto {
     private Set<RatingInfo> ratings;
     private Set<UserCaseInfo> cases;
     private Set<NotificationInfo> notifications;
+    private Set<Role> authorities;
 
     public Long getId() {
         return id;
@@ -53,5 +56,12 @@ public class UserDto {
     }
     public void setNotifications(Set<NotificationInfo> notifications) {
         this.notifications = notifications;
+    }
+
+    public Set<Role> getAuthorities() {
+        return authorities;
+    }
+    public void setAuthorities(Set<Role> authorities) {
+        this.authorities = authorities;
     }
 }
