@@ -18,7 +18,6 @@ public class Notification {
     @Id
     @GeneratedValue( strategy = GenerationType.AUTO)
     private Long id;
-
     
     @Column(nullable = false)
     private NotificationType type;
@@ -28,24 +27,24 @@ public class Notification {
 
     @ManyToOne
     @JoinColumn(name = "source_user_id", nullable = false)
-    private User source_user;
+    private User sourceUser;
 
     @ManyToOne
     @JoinColumn(name = "dest_user_id", nullable = false)
-    private User dest_user;
+    private User destUser;
 
     @ManyToOne
     @JoinColumn(name = "usercase_id", nullable = false)
     private User usercase;
 
     public Notification(Long id, NotificationType type, NotificationStatus status, LocalDateTime createDate,
-            User source_user, User dest_user, User usercase) {
+            User sourceUser, User destUser, User usercase) {
         this.id = id;
         this.type = type;
         this.status = status;
         this.createDate = createDate;
-        this.source_user = source_user;
-        this.dest_user = dest_user;
+        this.sourceUser = sourceUser;
+        this.destUser = destUser;
         this.usercase = usercase;
     }
 
@@ -84,20 +83,20 @@ public class Notification {
         this.createDate = createDate;
     }
 
-    public User getSource_user() {
-        return source_user;
+    public User getSourceUser() {
+        return sourceUser;
     }
 
-    public void setSource_user(User source_user) {
-        this.source_user = source_user;
+    public void setSourceUser(User sourceUser) {
+        this.sourceUser = sourceUser;
     }
 
-    public User getDest_user() {
-        return dest_user;
+    public User getDestUser() {
+        return destUser;
     }
 
-    public void setDest_user(User dest_user) {
-        this.dest_user = dest_user;
+    public void setDestUser(User destUser) {
+        this.destUser = destUser;
     }
 
     public User getUsercase() {
