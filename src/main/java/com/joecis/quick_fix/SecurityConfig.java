@@ -11,7 +11,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
-import com.joecis.quick_fix.user.User;
 
 @Configuration
 @EnableWebSecurity
@@ -20,10 +19,15 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            .authorizeHttpRequests((authorize) -> authorize.anyRequest().authenticated()
+            .authorizeHttpRequests((authorize) -> authorize
+                .requestMatchers("/login").permitAll()
+                .requestMatchers("/register").permitAll()
+                .anyRequest()
+                .authenticated()
             )
             .httpBasic(Customizer.withDefaults())
             .formLogin(Customizer.withDefaults());
+            
 
         return http.build();
     } 
