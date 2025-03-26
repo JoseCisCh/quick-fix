@@ -7,6 +7,7 @@ import java.util.Set;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.joecis.quick_fix.notification.Notification;
 import com.joecis.quick_fix.notification.NotificationStatus;
@@ -22,23 +23,27 @@ public class UserConfiguration {
     @Bean
     public CommandLineRunner demo(UserRepository userRepository, UserService userService, RoleRepository roleRepository) {
         return (args) -> {
+
+            // Initializing Bcrypt instance.
+
+            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
             // Creating user roles/Authorities.
             //
-            
+            Role adminUser = new Role("ROLE_ADMIN");
+            Role normalUser = new Role("ROLE_USER");
+            Set<Role> roles = new LinkedHashSet<Role>();
+            roles.add(adminUser);
+            roles.add(normalUser);
+            roleRepository.saveAll(roles);
+
             // Creating users
 
             // Creating user 1
-            User newUser = new User("test@gmail.com", "test@gmail.com", "Test FN", "Test LN", "password", true, true, true, true);
+            User newUser = new User("test@gmail.com", "test@gmail.com", "Test FN", "Test LN", passwordEncoder.encode("password"), true, true, true, true);
             User userOne = newUser;
             LinkedHashSet<Rating> ratings =new LinkedHashSet<Rating>(); 
             LinkedHashSet<UserCase> userCases = new LinkedHashSet<UserCase>();
             LinkedHashSet<Notification> notifications = new LinkedHashSet<Notification>();
-            Set<Role> roles = new LinkedHashSet<Role>();
-            Role adminUser = new Role("ROLE_ADMIN");
-            Role normalUser = new Role("ROLE_USER");
-            roles.add(adminUser);
-            roles.add(normalUser);
-            roleRepository.saveAll(roles);
 
             userRepository.save(newUser);
             ratings.add(new Rating(3, newUser));
@@ -58,7 +63,7 @@ public class UserConfiguration {
             userRepository.save(newUser);
             System.out.println("Passed user 1 creation");
             // Creating user 2
-            newUser = new User("test_2@gmail.com", "test_2@gmail.com", "Test 2 FN", "Test 2 LN", "password", true, true, true, true);
+            newUser = new User("test_2@gmail.com", "test_2@gmail.com", "Test 2 FN", "Test 2 LN", passwordEncoder.encode("password"), true, true, true, true);
             ratings =new LinkedHashSet<Rating>(); 
             userCases = new LinkedHashSet<UserCase>();
             roles = new LinkedHashSet<Role>();
@@ -83,7 +88,7 @@ public class UserConfiguration {
             System.out.println("Passed user 2 creation");
 
             // Creating user 3
-            newUser = new User("test_3@gmail.com", "test_3@gmail.com", "Test 3 FN", "Test 3 LN", "password", true, true, true, true);
+            newUser = new User("test_3@gmail.com", "test_3@gmail.com", "Test 3 FN", "Test 3 LN", passwordEncoder.encode("password"), true, true, true, true);
             ratings =new LinkedHashSet<Rating>(); 
             userCases = new LinkedHashSet<UserCase>();
             roles = new LinkedHashSet<Role>();
@@ -93,7 +98,7 @@ public class UserConfiguration {
             ratings.add(new Rating(4, newUser));
             ratings.add(new Rating(5, newUser));
             ratings.add(new Rating(2, newUser));
-            
+
             UserCase tempUserCase = new UserCase("Problem 8", "Problem 8 desc", LocalDateTime.now(), LocalDateTime.now(), newUser, userOne,UserCaseStatus.PENDING_TO_ASSIGN_SOLVER);
             userCases.add(tempUserCase);
             userCases.add(new UserCase("Problem 9", "Problem 9 desc", LocalDateTime.now(), LocalDateTime.now(), newUser, userOne,UserCaseStatus.PENDING_TO_ASSIGN_SOLVER));
