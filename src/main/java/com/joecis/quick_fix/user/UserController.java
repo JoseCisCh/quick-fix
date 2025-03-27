@@ -2,9 +2,7 @@ package com.joecis.quick_fix.user;
 
 import java.util.List;
 
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,7 +20,7 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("users/{id}")
+    @GetMapping("/users/{id}")
     public ResponseEntity<UserDto> getUserById(@PathVariable Long id) {
         try {
             UserDto foundUser = userService.getById(id);
@@ -32,12 +30,12 @@ public class UserController {
         }
     } 
 
-    @GetMapping("users")
+    @GetMapping("/users")
     public List<UserDto> getAllUsers() {
         return userService.getAllUsers();
     }
 
-    @PostMapping("users")
+    @PostMapping("/users")
     public ResponseEntity<User> createUser(@RequestBody User body) {
         try {
             return ResponseEntity.status(HttpStatus.CREATED).body(userService.createUser(body));
