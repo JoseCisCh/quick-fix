@@ -19,6 +19,8 @@ import org.springframework.security.web.header.writers.ClearSiteDataHeaderWriter
 
 import com.joecis.quick_fix.user.AppUserDetailsService;
 
+import jakarta.servlet.http.HttpServletResponse;
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
@@ -44,10 +46,13 @@ public class SecurityConfig {
             })
             .logout((logout) -> {
                 logout.logoutUrl("/logout");
-                logout.addLogoutHandler(
-                        new HeaderWriterLogoutHandler(
-                                new ClearSiteDataHeaderWriter(ClearSiteDataHeaderWriter.Directive.COOKIES)));
+                logout.invalidateHttpSession(true);
                 logout.deleteCookies("JSESSIONID");
+                logout.permitAll();
+                logout.logoutSuccessHandler((request, response, authentication)-> {
+                    response.setStatus(HttpServletResponse.SC_OK);
+                    response.getWriter().write("Logged out successfully");
+                });
             });
 
     return http.build();
