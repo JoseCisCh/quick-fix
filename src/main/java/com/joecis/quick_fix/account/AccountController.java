@@ -1,5 +1,7 @@
-package com.joecis.quick_fix.login;
+package com.joecis.quick_fix.account;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -13,18 +15,26 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.joecis.quick_fix.DTO.AccountUserDto;
 import com.joecis.quick_fix.DTO.LoginRequest;
+import com.joecis.quick_fix.DTO.RegisterRequest;
+import com.joecis.quick_fix.user.UserAlreadyExistsException;
+import com.joecis.quick_fix.user.UserService;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 @RestController
-public class LoginController {
+public class AccountController {
+
+    private UserService userService;
     private AuthenticationManager authenticationManager;
     private final SecurityContextHolderStrategy securityContextHolderStrategy = SecurityContextHolder.getContextHolderStrategy();
     private SecurityContextRepository securityContextRepository = new HttpSessionSecurityContextRepository();
-    public LoginController(AuthenticationManager authenticationManager) {
+    
+    public AccountController(AuthenticationManager authenticationManager, UserService userService) {
         this.authenticationManager = authenticationManager;
+        this.userService = userService;
     }
 
     @PostMapping("/login")
@@ -36,5 +46,16 @@ public class LoginController {
         securityContextHolderStrategy.setContext(context);
         securityContextRepository.saveContext(context, request, response);
         return null;
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity<AccountUserDto> register(@RequestBody RegisterRequest registerRequest) throws UserAlreadyExistsException {
+        if(userService.getByUsername(registerRequest.getUsername()) != null) {
+            throw new UserAlreadyExistsException( registerRequest.getUsername());
+        } 
+
+        AccountUserDto accountDto = userService.registerUser(registerRequest);
+        
+        return ResponseEntity.status(HttpStatus.CREATED).body(accountDto);
     }
 }

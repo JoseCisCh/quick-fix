@@ -7,6 +7,8 @@ import java.util.stream.Collectors;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import com.joecis.quick_fix.DTO.AccountUserDto;
+import com.joecis.quick_fix.DTO.RegisterRequest;
 import com.joecis.quick_fix.DTO.UserDto;
 
 import jakarta.transaction.Transactional;
@@ -31,6 +33,10 @@ public class UserService {
         } else {
             throw new UserNotFoundException(id);
         }
+    }
+
+    public User getByUsername(String username) {
+        return userRepository.findByUsername(username);
     }
 
     @Transactional
@@ -63,6 +69,13 @@ public class UserService {
     public User createUser(User user) {
         userRepository.save(user);
         return user;
+    }
+
+    public AccountUserDto registerUser(RegisterRequest registerInfo) {
+        User mappedUser = modelMapper.map(registerInfo, User.class);
+        userRepository.save(mappedUser);
+        AccountUserDto accountUserDto = modelMapper.map(mappedUser, AccountUserDto.class);
+        return accountUserDto;
     }
 
 }
