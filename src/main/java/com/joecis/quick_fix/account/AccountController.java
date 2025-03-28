@@ -1,6 +1,5 @@
 package com.joecis.quick_fix.account;
 
-import java.util.Collection;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -57,9 +56,10 @@ public class AccountController {
             AccountUserDto accountDto = new AccountUserDto();
             accountDto.setUsername(user.getUsername());
             accountDto.setAuthorities(authorities);
-            accountDto.setToken(tokenService.generateToken(accountDto));
+            accountDto.setToken(tokenService.generateToken(user.getUsername(), authorities));
             accountDto.setFirstName(user.getFirstName());
             accountDto.setLastName(user.getLastName());
+
             return ResponseEntity.status(HttpStatus.OK).body(accountDto);
         } else {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
@@ -71,9 +71,8 @@ public class AccountController {
         if(userService.getByUsername(registerRequest.getUsername()) != null) {
             throw new UserAlreadyExistsException( registerRequest.getUsername());
         } 
-
         AccountUserDto accountDto = userService.registerUser(registerRequest);
-        String token = tokenService.generateToken(accountDto);
+        String token = tokenService.generateToken(accountDto.getUsername(), accountDto.getAuthorities());
         accountDto.setToken(token);
         return ResponseEntity.status(HttpStatus.CREATED).body(accountDto);
     }

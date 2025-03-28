@@ -5,6 +5,7 @@ import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
@@ -12,7 +13,7 @@ import javax.crypto.spec.SecretKeySpec;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import com.joecis.quick_fix.DTO.AccountUserDto;
+import com.joecis.quick_fix.user.Role;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -28,11 +29,11 @@ public class TokenService {
         return new SecretKeySpec(secret.getBytes(StandardCharsets.UTF_8), "HmacSHA512");
     }
 
-    public String generateToken(AccountUserDto accountUserDto) {
+    public String generateToken(String username, Set<Role> roles ) {
         Map<String, Object> claims = new HashMap<String, Object>();
         
-        claims.put("nameid", accountUserDto.getUsername());
-        claims.put("roles", accountUserDto.getAuthorities());
+        claims.put("nameid", username);
+        claims.put("roles", roles);
         String token = Jwts
             .builder()
             .claims(claims)
