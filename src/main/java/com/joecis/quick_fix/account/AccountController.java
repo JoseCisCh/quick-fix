@@ -1,5 +1,9 @@
 package com.joecis.quick_fix.account;
 
+import java.util.Collection;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -13,6 +17,8 @@ import com.joecis.quick_fix.DTO.AccountUserDto;
 import com.joecis.quick_fix.DTO.LoginRequest;
 import com.joecis.quick_fix.DTO.RegisterRequest;
 import com.joecis.quick_fix.jwt.TokenService;
+import com.joecis.quick_fix.user.Role;
+import com.joecis.quick_fix.user.User;
 import com.joecis.quick_fix.user.UserAlreadyExistsException;
 import com.joecis.quick_fix.user.UserService;
 
@@ -33,10 +39,31 @@ public class AccountController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Void> login(@RequestBody LoginRequest loginRequest, HttpServletRequest request, HttpServletResponse response) {
+    public ResponseEntity<AccountUserDto> login(@RequestBody LoginRequest loginRequest, HttpServletRequest request, HttpServletResponse response) {
         Authentication authenticationRequest = UsernamePasswordAuthenticationToken.unauthenticated(loginRequest.getUsername(), loginRequest.getPassword());
         Authentication authenticationResponse = this.authenticationManager.authenticate(authenticationRequest);
-        return null;
+
+        // NOTE: After testing this if statement may not be necessary, however I will keep it just for
+        //       consistency.
+        if(authenticationResponse.isAuthenticated()) {
+            User  user = (User) authenticationResponse.getPrincipal();
+            Set<Role> authorities =  authenticationResponse
+                                        .getAuthorities()
+                                        .stream()
+                                        .filter(authority -> authority instanceof Role)
+                                        .map(authority -> (Role) authority)
+                                        .collect(Collectors.toSet());
+
+            AccountUserDto accountDto = new AccountUserDto();
+            accountDto.setUsername(user.getUsername());
+            accountDto.setAuthorities(authorities);
+            accountDto.setToken(tokenService.generateToken(accountDto));
+            accountDto.setFirstName(user.getFirstName());
+            accountDto.setLastName(user.getLastName());
+            return ResponseEntity.status(HttpStatus.OK).body(accountDto);
+        } else {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
+        }
     }
 
     @PostMapping("/register")
