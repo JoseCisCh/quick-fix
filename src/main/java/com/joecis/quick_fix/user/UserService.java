@@ -1,5 +1,6 @@
 package com.joecis.quick_fix.user;
 
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -18,10 +19,12 @@ public class UserService {
     
     private UserRepository userRepository;
     private ModelMapper modelMapper;
+    private RoleRepository roleRepository;
 
-    public UserService(UserRepository userRepository, ModelMapper modelMapper) {
+    public UserService(UserRepository userRepository, ModelMapper modelMapper, RoleRepository roleRepository) {
         this.userRepository = userRepository;
         this.modelMapper = modelMapper;
+        this.roleRepository = roleRepository;
     }
     
     @Transactional
@@ -73,6 +76,10 @@ public class UserService {
 
     public AccountUserDto registerUser(RegisterRequest registerInfo) {
         User mappedUser = modelMapper.map(registerInfo, User.class);
+        Role basicUserRole = roleRepository.findByName("ROLE_USER");
+        LinkedHashSet<Role> roles = new LinkedHashSet<Role>();
+        roles.add(basicUserRole);
+        mappedUser.setAuthorities(roles);
         userRepository.save(mappedUser);
         AccountUserDto accountUserDto = modelMapper.map(mappedUser, AccountUserDto.class);
         return accountUserDto;

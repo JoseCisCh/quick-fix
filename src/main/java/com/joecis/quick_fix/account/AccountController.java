@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.joecis.quick_fix.DTO.AccountUserDto;
 import com.joecis.quick_fix.DTO.LoginRequest;
 import com.joecis.quick_fix.DTO.RegisterRequest;
+import com.joecis.quick_fix.jwt.TokenService;
 import com.joecis.quick_fix.user.UserAlreadyExistsException;
 import com.joecis.quick_fix.user.UserService;
 
@@ -29,12 +30,14 @@ public class AccountController {
 
     private UserService userService;
     private AuthenticationManager authenticationManager;
+    private TokenService tokenService;
     private final SecurityContextHolderStrategy securityContextHolderStrategy = SecurityContextHolder.getContextHolderStrategy();
     private SecurityContextRepository securityContextRepository = new HttpSessionSecurityContextRepository();
     
-    public AccountController(AuthenticationManager authenticationManager, UserService userService) {
+    public AccountController(AuthenticationManager authenticationManager, UserService userService, TokenService tokenService) {
         this.authenticationManager = authenticationManager;
         this.userService = userService;
+        this.tokenService = tokenService;
     }
 
     @PostMapping("/login")
@@ -55,7 +58,8 @@ public class AccountController {
         } 
 
         AccountUserDto accountDto = userService.registerUser(registerRequest);
-        
+        String token = tokenService.generateToken(accountDto);
+        accountDto.setToken(token);
         return ResponseEntity.status(HttpStatus.CREATED).body(accountDto);
     }
 }

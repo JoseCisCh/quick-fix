@@ -1,10 +1,15 @@
 package com.joecis.quick_fix.DTO;
 
+import java.util.Set;
+
+import com.joecis.quick_fix.user.Role;
+
 public class AccountUserDto {
     private String username;
     private String firstName;
     private String lastName;
     private String token;
+    private Set<Role> authorities;
 
     public String getUsername() {
         return username;
@@ -29,5 +34,11 @@ public class AccountUserDto {
     }
     public void setToken(String token) {
         this.token = token;
+    }
+    public Set<Role> getAuthorities() {
+        return authorities;
+    }
+    public void setAuthorities(Set<Role> authorities) {
+        this.authorities = authorities;
     }
 }
