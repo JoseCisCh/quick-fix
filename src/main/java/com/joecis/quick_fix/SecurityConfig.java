@@ -8,23 +8,25 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.SessionManagementConfigurer;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.logout.HeaderWriterLogoutHandler;
-import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
-import org.springframework.security.web.header.writers.ClearSiteDataHeaderWriter;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import com.joecis.quick_fix.jwt.TokenService;
+import com.joecis.quick_fix.securityfilter.JwtAuthenticationFilter;
 import com.joecis.quick_fix.user.AppUserDetailsService;
 
-import jakarta.servlet.http.HttpServletResponse;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 
+    private TokenService tokenService;
+
+    public SecurityConfig(TokenService tokenService) {
+        this.tokenService = tokenService;
+    }
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -37,23 +39,7 @@ public class SecurityConfig {
                     .authenticated())
             .httpBasic(Customizer.withDefaults())
             .cors(Customizer.withDefaults())
-            .securityContext(securityContext -> securityContext
-                    .securityContextRepository(new HttpSessionSecurityContextRepository()))
-            .sessionManagement(session -> {
-                session.maximumSessions(1).maxSessionsPreventsLogin(true);
-                session.sessionFixation(SessionManagementConfigurer.SessionFixationConfigurer::newSession);
-                session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED);
-            })
-            .logout((logout) -> {
-                logout.logoutUrl("/logout");
-                logout.invalidateHttpSession(true);
-                logout.deleteCookies("JSESSIONID");
-                logout.permitAll();
-                logout.logoutSuccessHandler((request, response, authentication)-> {
-                    response.setStatus(HttpServletResponse.SC_OK);
-                    response.getWriter().write("Logged out successfully");
-                });
-            });
+            .addFilterBefore(new JwtAuthenticationFilter(tokenService), UsernamePasswordAuthenticationFilter.class);
 
     return http.build();
 }

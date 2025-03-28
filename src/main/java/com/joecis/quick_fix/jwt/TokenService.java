@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -26,20 +27,34 @@ public class TokenService {
     private Key getSigningKey() {
         return new SecretKeySpec(secret.getBytes(StandardCharsets.UTF_8), "HmacSHA512");
     }
+
     public String generateToken(AccountUserDto accountUserDto) {
         Map<String, Object> claims = new HashMap<String, Object>();
         
-        accountUserDto.getAuthorities().forEach(role -> System.out.println(role));
         claims.put("nameid", accountUserDto.getUsername());
         claims.put("roles", accountUserDto.getAuthorities());
         String token = Jwts
             .builder()
-            .setClaims(claims)
-            .setIssuedAt(new Date())
-            .setExpiration(new Date(System.currentTimeMillis() + 86400000)) 
-            .signWith(getSigningKey(), algorithm)
+            .claims(claims)
+            .issuedAt(new Date())
+            .expiration(new Date(System.currentTimeMillis() + 86400000)) 
+            .signWith(getSigningKey())
             .compact();
 
         return token;
+    }
+    
+    public String validateJwt(String jwt) throws Exception {
+        try {
+            return Jwts
+                .parser()
+                .verifyWith((SecretKey) getSigningKey())
+                .build()
+                .parseSignedClaims(jwt)
+                .getPayload()
+                .get("nameid", String.class);
+        } catch (Exception e) {
+            throw new Exception("Not able to validate JWT.");
+        }
     }
 }
