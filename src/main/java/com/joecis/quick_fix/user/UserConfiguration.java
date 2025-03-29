@@ -13,6 +13,8 @@ import com.joecis.quick_fix.notification.Notification;
 import com.joecis.quick_fix.notification.NotificationStatus;
 import com.joecis.quick_fix.notification.NotificationType;
 import com.joecis.quick_fix.rating.Rating;
+import com.joecis.quick_fix.role.Role;
+import com.joecis.quick_fix.role.RoleRepository;
 import com.joecis.quick_fix.usercase.UserCase;
 import com.joecis.quick_fix.usercase.UserCaseStatus;
 

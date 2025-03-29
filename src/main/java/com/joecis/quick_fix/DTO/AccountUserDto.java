@@ -2,7 +2,7 @@ package com.joecis.quick_fix.DTO;
 
 import java.util.Set;
 
-import com.joecis.quick_fix.user.Role;
+import com.joecis.quick_fix.role.Role;
 
 public class AccountUserDto {
     private String username;

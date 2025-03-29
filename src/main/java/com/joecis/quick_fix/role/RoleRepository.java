@@ -1,4 +1,4 @@
-package com.joecis.quick_fix.user;
+package com.joecis.quick_fix.role;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 import com.joecis.quick_fix.DTO.AccountUserDto;
 import com.joecis.quick_fix.DTO.RegisterRequest;
 import com.joecis.quick_fix.DTO.UserDto;
+import com.joecis.quick_fix.role.Role;
+import com.joecis.quick_fix.role.RoleRepository;
 
 import jakarta.transaction.Transactional;
 

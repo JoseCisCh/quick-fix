@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.joecis.quick_fix.notification.Notification;
 import com.joecis.quick_fix.rating.Rating;
+import com.joecis.quick_fix.role.Role;
 import com.joecis.quick_fix.usercase.UserCase;
 
 import jakarta.persistence.CascadeType;

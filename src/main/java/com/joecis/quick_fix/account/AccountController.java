@@ -16,7 +16,7 @@ import com.joecis.quick_fix.DTO.AccountUserDto;
 import com.joecis.quick_fix.DTO.LoginRequest;
 import com.joecis.quick_fix.DTO.RegisterRequest;
 import com.joecis.quick_fix.jwt.TokenService;
-import com.joecis.quick_fix.user.Role;
+import com.joecis.quick_fix.role.Role;
 import com.joecis.quick_fix.user.User;
 import com.joecis.quick_fix.user.UserAlreadyExistsException;
 import com.joecis.quick_fix.user.UserService;
