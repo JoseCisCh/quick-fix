@@ -24,12 +24,10 @@ public class UserCase {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Size(max = 40)
-    @Column(nullable = false)
+    @Column(nullable = false, length = 40)
     private String title;
 
-    @Size(max = 255)
-    @Column(nullable = false)
+    @Column(nullable = false, length = 255)
     private String description;
 
     @Column(nullable = false)

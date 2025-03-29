@@ -2,6 +2,7 @@ package com.joecis.quick_fix.rating;
 
 import com.joecis.quick_fix.user.User;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -17,6 +18,8 @@ public class Rating {
     @Id
     @GeneratedValue( strategy = GenerationType.AUTO)
     Long id;
+
+    @Column(nullable = false)
     int value;
 
     @ManyToOne

@@ -29,15 +29,15 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.AUTO)
     Long id;
     
-    @Column(nullable = false)
+    @Column(nullable = false, length = 320, unique = true)
     String username;
-    @Column(nullable = false)
+    @Column(nullable = false, length = 320, unique = true)
     String email;
-    @Column(nullable = false)
+    @Column(nullable = false, length = 40)
     String firstName;
-    @Column(nullable = false)
+    @Column(nullable = false, length = 50)
     String lastName;
-    @Column(nullable = false)
+    @Column(nullable = false, length = 100)
     String password;
 
     @Column(nullable = false)
