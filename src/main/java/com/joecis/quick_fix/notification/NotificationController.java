@@ -21,7 +21,9 @@ public class NotificationController {
     }
 
     @GetMapping("/notifications/{id}")
-    public List<Notification> fetchNotificationsByDestUserId(@PathVariable Long id, Principal principal) {
+    public List<Notification> fetchNotificationsByDestUserId(
+            @PathVariable Long id, 
+            Principal principal) {
         return this.notificationService.getNotificationsByDestUserId(id);
     }
 

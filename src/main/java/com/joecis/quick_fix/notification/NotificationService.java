@@ -12,7 +12,6 @@ public class NotificationService {
     public NotificationService(NotificationRepository notificationRepository) {
         this.notificationRepository = notificationRepository;
     }
-
     public List<Notification> getAllNotifications() {
         return this.notificationRepository.findAll();
     }
