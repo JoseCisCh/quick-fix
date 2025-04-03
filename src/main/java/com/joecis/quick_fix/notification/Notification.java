@@ -38,8 +38,9 @@ public class Notification {
     @JoinColumn(name = "usercase_id", nullable = false)
     private UserCase usercase;
 
-    public Notification(NotificationType type, NotificationStatus status, LocalDateTime createDate, User sourceUser,
-            User destUser, UserCase usercase) {
+    public Notification(NotificationType type, NotificationStatus status,
+                        LocalDateTime createDate, User sourceUser,
+                        User destUser, UserCase usercase) {
         this.type = type;
         this.status = status;
         this.createDate = createDate;
@@ -48,8 +49,13 @@ public class Notification {
         this.usercase = usercase;
     }
 
-    public Notification(Long id, NotificationType type, NotificationStatus status, LocalDateTime createDate,
-            User sourceUser, User destUser, UserCase usercase) {
+    public Notification(Long id,
+                        NotificationType type,
+                        NotificationStatus status,
+                        LocalDateTime createDate,
+                        User sourceUser,
+                        User destUser,
+                        UserCase usercase) {
         this.id = id;
         this.type = type;
         this.status = status;

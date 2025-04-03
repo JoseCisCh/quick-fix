@@ -52,8 +52,13 @@ public class UserCase {
     private UserCaseStatus status;
     
 
-    public UserCase(@Size(max = 40) String title, @Size(max = 255) String description, LocalDateTime create_date,
-            LocalDateTime modified_date, User createUser, User solverUser, UserCaseStatus status) {
+    public UserCase(@Size(max = 40) String title,
+                    @Size(max = 255) String description,
+                    LocalDateTime create_date,
+                    LocalDateTime modified_date,
+                    User createUser,
+                    User solverUser,
+                    UserCaseStatus status) {
         this.title = title;
         this.description = description;
         this.create_date = create_date;
@@ -72,8 +77,12 @@ public class UserCase {
      *            be valid in Java 8 and manual validation would have to be done
      *            inside the constructor
      */
-    public UserCase(@Size(max = 40) String title, @Size(max = 255) String description, LocalDateTime create_date,
-        LocalDateTime modified_date, User create_user, UserCaseStatus status ) {
+    public UserCase(@Size(max = 40) String title,
+                    @Size(max = 255) String description, 
+                    LocalDateTime create_date,
+                    LocalDateTime modified_date,
+                    User create_user, 
+                    UserCaseStatus status ) {
         this.title = title;
         this.description = description;
         this.create_date = create_date;
@@ -82,9 +91,16 @@ public class UserCase {
         this.status = status;
     }
 
-    public UserCase(Long id, @Size(max = 40) String title, @Size(max = 255) String description,
-            LocalDateTime create_date, LocalDateTime modified_date, Location location, Set<Image> images,
-            User create_user, User solver_user, UserCaseStatus status) {
+    public UserCase(Long id,
+                    @Size(max = 40) String title, 
+                    @Size(max = 255) String description,
+                    LocalDateTime create_date,
+                    LocalDateTime modified_date,
+                    Location location,
+                    Set<Image> images,
+                    User create_user,
+                    User solver_user, 
+                    UserCaseStatus status) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -179,9 +195,15 @@ public class UserCase {
 
     @Override
     public String toString() {
-        return "UserCase [id=" + id + ", title=" + title + ", description=" + description + ", create_date="
-                + create_date + ", modified_date=" + modified_date + ", location=" + location.toString() + ", images=" + images.toString()
-                + ", create_user=" + createUser + ", solver_user=" + solverUser + ", status=" + status + "]";
-    }
+        return "UserCase [id=" + id + 
+               ", title=" + title +
+               ", description=" + description +
+               ", create_date=" + create_date +
+               ", modified_date=" + modified_date + 
+               ", location=" + location.toString() +
+               ", images=" + images.toString() +
+               ", create_user=" + createUser +
+               ", solver_user=" + solverUser +
+               ", status=" + status + "]"; }
 
 }

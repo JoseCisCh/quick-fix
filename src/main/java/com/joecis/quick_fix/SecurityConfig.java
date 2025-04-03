@@ -28,7 +28,9 @@ public class SecurityConfig {
         this.tokenService = tokenService;
     }
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(
+        HttpSecurity http) 
+        throws Exception {
         http
             .csrf(configurer -> configurer.disable())
             .authorizeHttpRequests((authorize) -> authorize
@@ -39,7 +41,9 @@ public class SecurityConfig {
                     .authenticated())
             .httpBasic(Customizer.withDefaults())
             .cors(Customizer.withDefaults())
-            .addFilterBefore(new JwtAuthenticationFilter(tokenService), UsernamePasswordAuthenticationFilter.class);
+            .addFilterBefore(
+                new JwtAuthenticationFilter(tokenService),
+                UsernamePasswordAuthenticationFilter.class);
 
     return http.build();
 }
@@ -50,9 +54,11 @@ public class SecurityConfig {
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(AppUserDetailsService appUserDetailsService,
+    public AuthenticationManager authenticationManager(
+            AppUserDetailsService appUserDetailsService,
             PasswordEncoder passwordEncoder) {
-        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
+        DaoAuthenticationProvider authenticationProvider =
+            new DaoAuthenticationProvider();
         authenticationProvider.setUserDetailsService(appUserDetailsService);
         authenticationProvider.setPasswordEncoder(passwordEncoder);
 

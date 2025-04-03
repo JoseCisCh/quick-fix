@@ -54,18 +54,27 @@ public class User implements UserDetails {
     Set<Role> authorities;
 
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "user")
+    @OneToMany(fetch = FetchType.LAZY,
+               cascade = CascadeType.ALL,
+               mappedBy = "user")
     private Set<Rating> ratings;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "createUser")
+    @OneToMany(fetch = FetchType.LAZY,
+    cascade = CascadeType.ALL,
+    mappedBy = "createUser")
     private Set<UserCase> usercases;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "destUser")
+    @OneToMany(fetch = FetchType.LAZY,
+               cascade = CascadeType.ALL,
+               mappedBy = "destUser")
     private Set<Notification> notifications;
 
 
-    public User(String username, String email, String firstName, String lastName, String password,
-            boolean accountNonExpired, boolean accountNonLocked, boolean enabled, boolean credentialsNonExpired) {
+    public User(String username, String email,
+                String firstName, String lastName,
+                String password, boolean accountNonExpired,
+                boolean accountNonLocked, boolean enabled,
+                boolean credentialsNonExpired) {
         this.username = username;
         this.email = email;
         this.firstName = firstName;
@@ -77,9 +86,13 @@ public class User implements UserDetails {
         this.credentialsNonExpired = credentialsNonExpired;
     }
 
-    public User(Long id, String username, String email, String firstName, String lastName, String password,
-            boolean accountNonExpired, boolean accountNonLocked, boolean enabled, boolean credentialsNonExpired,
-            Set<Rating> ratings, Set<UserCase> usercases, Set<Notification> notifications) {
+    public User(Long id, String username,
+            String email, String firstName,
+            String lastName, String password,
+            boolean accountNonExpired, boolean accountNonLocked,
+            boolean enabled, boolean credentialsNonExpired,
+            Set<Rating> ratings, Set<UserCase> usercases, 
+            Set<Notification> notifications) {
         this.id = id;
         this.username = username;
         this.email = email;
@@ -98,15 +111,18 @@ public class User implements UserDetails {
     public User() {
     }
 
-    public User(String email, String firstName, String lastName, String password) {
+    public User(String email, String firstName, 
+            String lastName, String password) {
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
         this.password = password;
     }
 
-    public User(Long id, String email, String firstName, String lastName, String password, Set<Rating> ratings,
-            Set<UserCase> usercases) {
+    public User(Long id, String email, 
+                String firstName, String lastName, 
+                String password, Set<Rating> ratings,
+                Set<UserCase> usercases) {
         this.id = id;
         this.email = email;
         this.firstName = firstName;
@@ -116,7 +132,9 @@ public class User implements UserDetails {
         this.usercases = usercases;
     }
 
-    public User(Long id, String email, String firstName, String lastName, String password) {
+    public User(Long id, String email,
+                String firstName, String lastName,
+                String password) {
         this.id = id;
         this.email = email;
         this.firstName = firstName;
@@ -260,7 +278,10 @@ public class User implements UserDetails {
 
     @Override
     public String toString() {
-        return "User [id=" + id + ", email=" + email + ", firstName=" + firstName + ", lastName=" + lastName
-        + ", password=" + password + "]";
+        return "User [id=" + id +
+                ", email=" + email +
+                ", firstName=" + firstName +
+                ", lastName=" + lastName + 
+                ", password=" + password + "]";
     }
-}
+} 

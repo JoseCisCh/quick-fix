@@ -38,7 +38,9 @@ public class UserController {
     @PostMapping("/users")
     public ResponseEntity<User> createUser(@RequestBody User body) {
         try {
-            return ResponseEntity.status(HttpStatus.CREATED).body(userService.createUser(body));
+            return ResponseEntity.status(
+                    HttpStatus.CREATED).body(
+                            userService.createUser(body));
         } catch(IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(null);
         }

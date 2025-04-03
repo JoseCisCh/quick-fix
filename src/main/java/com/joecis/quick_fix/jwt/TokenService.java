@@ -23,10 +23,13 @@ public class TokenService {
 
     @Value("${jwt.secret}")
     private String secret; 
-    private static final SignatureAlgorithm algorithm = SignatureAlgorithm.HS512;
+    private static final SignatureAlgorithm algorithm =
+            SignatureAlgorithm.HS512;
 
     private Key getSigningKey() {
-        return new SecretKeySpec(secret.getBytes(StandardCharsets.UTF_8), "HmacSHA512");
+        return new SecretKeySpec(
+                secret.getBytes(StandardCharsets.UTF_8),
+                "HmacSHA512");
     }
 
     public String generateToken(String username, Set<Role> roles ) {

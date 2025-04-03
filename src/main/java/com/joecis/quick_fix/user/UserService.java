@@ -3,6 +3,7 @@ package com.joecis.quick_fix.user;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
@@ -23,9 +24,12 @@ public class UserService {
     private UserRepository userRepository;
     private ModelMapper modelMapper;
     private RoleRepository roleRepository;
-    private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
+    private BCryptPasswordEncoder passwordEncoder =
+            new BCryptPasswordEncoder(10);
 
-    public UserService(UserRepository userRepository, ModelMapper modelMapper, RoleRepository roleRepository) {
+    public UserService(UserRepository userRepository,
+                       ModelMapper modelMapper,
+                       RoleRepository roleRepository) {
         this.userRepository = userRepository;
         this.modelMapper = modelMapper;
         this.roleRepository = roleRepository;
@@ -63,12 +67,13 @@ public class UserService {
 
     @Transactional
     public List<UserDto> getAllUsers() {
+        Function<User, UserDto> mapToUserDto = user -> 
+                modelMapper.map(user, UserDto.class);
+
         List<User> users = this.userRepository.findAll();
         List<UserDto> usersDto = users.stream()
-                                        .map(user -> {
-                                            return modelMapper.map(user, UserDto.class);
-                                        })
-                                        .collect(Collectors.toList());
+                .map(mapToUserDto)
+                .collect(Collectors.toList());
 
         return usersDto;
     }
@@ -80,7 +85,9 @@ public class UserService {
 
     public AccountUserDto registerUser(RegisterRequest registerInfo) {
         User mappedUser = modelMapper.map(registerInfo, User.class);
-        mappedUser.setPassword(passwordEncoder.encode(mappedUser.getPassword()));
+        mappedUser.setPassword(
+                passwordEncoder.encode(mappedUser.getPassword()));
+
         Role basicUserRole = roleRepository.findByName("ROLE_USER");
         LinkedHashSet<Role> roles = new LinkedHashSet<Role>();
         roles.add(basicUserRole);
@@ -90,7 +97,8 @@ public class UserService {
         mappedUser.setCredentialsNonExpired(true);
         mappedUser.setAccountNonExpired(true);
         userRepository.save(mappedUser);
-        AccountUserDto accountUserDto = modelMapper.map(mappedUser, AccountUserDto.class);
+        AccountUserDto accountUserDto = modelMapper.map(
+            mappedUser, AccountUserDto.class);
         return accountUserDto;
     }
 

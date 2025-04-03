@@ -16,16 +16,19 @@ public class ControllerErrorHandler {
 
     @ExceptionHandler(IOException.class)
     public ResponseEntity<String> handle() {
-        return ResponseEntity.internalServerError().body("Internal server error");
+        return ResponseEntity.internalServerError()
+                .body("Internal server error");
     }
 
     @ExceptionHandler(UserAlreadyExistsException.class) 
-    public ResponseEntity<String> handleUserAlreadyExistsException(UserAlreadyExistsException e) {
+    public ResponseEntity<String> handleUserAlreadyExistsException(
+            UserAlreadyExistsException e) {
         return ResponseEntity.badRequest().body(e.getMessage());
     }
 
     @ExceptionHandler(AccessDeniedException.class) 
-    public ResponseEntity<String> handleAccessDeniedException(AccessDeniedException e) {
+    public ResponseEntity<String> handleAccessDeniedException(
+            AccessDeniedException e) {
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
     }
     

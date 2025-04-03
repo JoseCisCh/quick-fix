@@ -1,6 +1,8 @@
 package com.joecis.quick_fix.account;
 
 import java.util.Set;
+import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
@@ -8,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,32 +34,53 @@ public class AccountController {
     private AuthenticationManager authenticationManager;
     private TokenService tokenService;
     
-    public AccountController(AuthenticationManager authenticationManager, UserService userService, TokenService tokenService) {
+    public AccountController(
+            AuthenticationManager authenticationManager,
+            UserService userService,
+            TokenService tokenService) {
         this.authenticationManager = authenticationManager;
         this.userService = userService;
         this.tokenService = tokenService;
     }
 
     @PostMapping("/login")
-    public ResponseEntity<AccountUserDto> login(@RequestBody LoginRequest loginRequest, HttpServletRequest request, HttpServletResponse response) {
-        Authentication authenticationRequest = UsernamePasswordAuthenticationToken.unauthenticated(loginRequest.getUsername(), loginRequest.getPassword());
-        Authentication authenticationResponse = this.authenticationManager.authenticate(authenticationRequest);
+    public ResponseEntity<AccountUserDto> login(
+            @RequestBody LoginRequest loginRequest,
+            HttpServletRequest request,
+            HttpServletResponse response) {
 
-        // NOTE: After testing this if statement may not be necessary, however I will keep it just for
-        //       consistency.
+        Authentication authenticationRequest = 
+                UsernamePasswordAuthenticationToken.unauthenticated(
+                        loginRequest.getUsername(),
+                        loginRequest.getPassword());
+
+        Authentication authenticationResponse = 
+                this.authenticationManager.authenticate(authenticationRequest);
+
+        // NOTE: After testing this if statement may not be necessary, 
+        // however I will keep it just for consistency.
         if(authenticationResponse.isAuthenticated()) {
+            Predicate<GrantedAuthority> isRole = authority ->
+                    authority instanceof Role;
+
+            Function<GrantedAuthority, Role> castToRole = authority ->
+                    (Role) authority;
+
             User  user = (User) authenticationResponse.getPrincipal();
             Set<Role> authorities =  authenticationResponse
                                         .getAuthorities()
                                         .stream()
-                                        .filter(authority -> authority instanceof Role)
-                                        .map(authority -> (Role) authority)
+                                        .filter(isRole)
+                                        .map(castToRole)
                                         .collect(Collectors.toSet());
 
             AccountUserDto accountDto = new AccountUserDto();
             accountDto.setUsername(user.getUsername());
             accountDto.setAuthorities(authorities);
-            accountDto.setToken(tokenService.generateToken(user.getUsername(), authorities));
+            accountDto.setToken(
+                    tokenService.generateToken(
+                         user.getUsername(),
+                         authorities));
             accountDto.setFirstName(user.getFirstName());
             accountDto.setLastName(user.getLastName());
 
@@ -67,13 +91,25 @@ public class AccountController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<AccountUserDto> register(@RequestBody RegisterRequest registerRequest) throws UserAlreadyExistsException {
-        if(userService.getByUsername(registerRequest.getUsername()) != null) {
-            throw new UserAlreadyExistsException( registerRequest.getUsername());
+    public ResponseEntity<AccountUserDto> register(
+            @RequestBody RegisterRequest registerRequest)
+            throws UserAlreadyExistsException {
+        if(userService.getByUsername(registerRequest.getUsername()) 
+                != null) {
+            throw new UserAlreadyExistsException( 
+                    registerRequest.getUsername());
         } 
-        AccountUserDto accountDto = userService.registerUser(registerRequest);
-        String token = tokenService.generateToken(accountDto.getUsername(), accountDto.getAuthorities());
+        
+        AccountUserDto accountDto = userService
+                .registerUser(registerRequest);
+
+        String token = tokenService.generateToken(
+                accountDto.getUsername(), 
+                accountDto.getAuthorities());
+
         accountDto.setToken(token);
-        return ResponseEntity.status(HttpStatus.CREATED).body(accountDto);
+
+        return ResponseEntity.status(HttpStatus.CREATED)
+            .body(accountDto);
     }
 }
