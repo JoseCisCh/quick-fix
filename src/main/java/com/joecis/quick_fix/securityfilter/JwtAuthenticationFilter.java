@@ -43,9 +43,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
                 Long nameid = tokenService.extractUserId(claims);
                 List<Role> roles = tokenService.extractUserRoles(claims)
-                                       .stream()
-                                       .map(Role::new)
-                                       .collect(Collectors.toList());
+                                           .stream()
+                                           .map(Role::new)
+                                           .collect(Collectors.toList());
                 
                 Authentication authentication = 
                         new UsernamePasswordAuthenticationToken(
