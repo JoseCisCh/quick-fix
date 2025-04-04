@@ -74,8 +74,8 @@ public class UserCase {
     /*
      * IMPORTANT JAVA 8 COMPATIBILITY: 
      *            The inclusion of annotation in UserCase constructor wouldn't 
-     *            be valid in Java 8 and manual validation would have to be done
-     *            inside the constructor
+     *            be valid in Java 8 and manual validation would have to be 
+     *            done inside the constructor.
      */
     public UserCase(@Size(max = 40) String title,
                     @Size(max = 255) String description, 
