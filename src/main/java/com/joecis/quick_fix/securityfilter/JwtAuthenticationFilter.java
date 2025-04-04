@@ -33,7 +33,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         if(authorizationHeader != null 
            && authorizationHeader.startsWith("Bearer ")) {
             try {
-                String nameid = tokenService.
+                Long nameid = tokenService.
                         validateJwt(authorizationHeader.substring(7));
 
                 Authentication authentication = 

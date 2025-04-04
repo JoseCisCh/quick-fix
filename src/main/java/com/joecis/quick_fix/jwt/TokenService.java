@@ -32,10 +32,10 @@ public class TokenService {
                 "HmacSHA512");
     }
 
-    public String generateToken(String username, Set<Role> roles ) {
+    public String generateToken(Long id, Set<Role> roles ) {
         Map<String, Object> claims = new HashMap<String, Object>();
         
-        claims.put("nameid", username);
+        claims.put("nameid", id);
         claims.put("roles", roles);
         String token = Jwts
             .builder()
@@ -48,7 +48,7 @@ public class TokenService {
         return token;
     }
     
-    public String validateJwt(String jwt) throws Exception {
+    public Long validateJwt(String jwt) throws Exception {
         try {
             return Jwts
                 .parser()
@@ -56,7 +56,7 @@ public class TokenService {
                 .build()
                 .parseSignedClaims(jwt)
                 .getPayload()
-                .get("nameid", String.class);
+                .get("nameid", Long.class);
         } catch (Exception e) {
             throw new Exception("Not able to validate JWT.");
         }

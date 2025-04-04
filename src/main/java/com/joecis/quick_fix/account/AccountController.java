@@ -75,11 +75,12 @@ public class AccountController {
                                         .collect(Collectors.toSet());
 
             AccountUserDto accountDto = new AccountUserDto();
+            accountDto.setId(user.getId());
             accountDto.setUsername(user.getUsername());
             accountDto.setAuthorities(authorities);
             accountDto.setToken(
                     tokenService.generateToken(
-                         user.getUsername(),
+                         accountDto.getId(),
                          authorities));
             accountDto.setFirstName(user.getFirstName());
             accountDto.setLastName(user.getLastName());
@@ -104,7 +105,7 @@ public class AccountController {
                 .registerUser(registerRequest);
 
         String token = tokenService.generateToken(
-                accountDto.getUsername(), 
+                accountDto.getId(),
                 accountDto.getAuthorities());
 
         accountDto.setToken(token);
