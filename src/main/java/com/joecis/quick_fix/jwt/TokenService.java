@@ -4,8 +4,10 @@ import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
@@ -15,6 +17,8 @@ import org.springframework.stereotype.Service;
 
 import com.joecis.quick_fix.role.Role;
 
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
@@ -34,9 +38,13 @@ public class TokenService {
 
     public String generateToken(Long id, Set<Role> roles ) {
         Map<String, Object> claims = new HashMap<String, Object>();
+        List<String> roleList = roles.stream()
+                                .map(role -> 
+                                        role.getAuthority())
+                                .collect(Collectors.toList());
         
         claims.put("nameid", id);
-        claims.put("roles", roles);
+        claims.put("roles", roleList);
         String token = Jwts
             .builder()
             .claims(claims)
@@ -48,17 +56,29 @@ public class TokenService {
         return token;
     }
     
-    public Long validateJwt(String jwt) throws Exception {
+public Claims validateJwtAndExtractClaims(String jwt) 
+    throws Exception {
         try {
             return Jwts
                 .parser()
                 .verifyWith((SecretKey) getSigningKey())
                 .build()
                 .parseSignedClaims(jwt)
-                .getPayload()
-                .get("nameid", Long.class);
+                .getPayload();
+                
         } catch (Exception e) {
             throw new Exception("Not able to validate JWT.");
         }
     }
+
+    public Long extractUserId(Claims claims) {
+        return claims.get("nameid", Long.class);
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<String> extractUserRoles(Claims claims) {
+        return (List<String>) claims.get("roles");
+    }
+
+    
 }

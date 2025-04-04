@@ -1,6 +1,9 @@
 package com.joecis.quick_fix.securityfilter;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.security.core.Authentication;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -8,8 +11,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.joecis.quick_fix.jwt.TokenService;
+import com.joecis.quick_fix.role.Role;
 
-import io.jsonwebtoken.lang.Collections;
+import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -28,19 +32,26 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             HttpServletResponse response,
             FilterChain filterChain) 
             throws ServletException, IOException {
-
+        
         String authorizationHeader = request.getHeader("Authorization");
         if(authorizationHeader != null 
            && authorizationHeader.startsWith("Bearer ")) {
             try {
-                Long nameid = tokenService.
-                        validateJwt(authorizationHeader.substring(7));
+                Claims claims = tokenService.
+                        validateJwtAndExtractClaims(
+                            authorizationHeader.substring(7));
 
+                Long nameid = tokenService.extractUserId(claims);
+                List<Role> roles = tokenService.extractUserRoles(claims)
+                                       .stream()
+                                       .map(Role::new)
+                                       .collect(Collectors.toList());
+                
                 Authentication authentication = 
                         new UsernamePasswordAuthenticationToken(
                                 nameid,
                                 null,
-                                Collections.emptyList());
+                                roles);
 
                 SecurityContextHolder
                         .getContext()
