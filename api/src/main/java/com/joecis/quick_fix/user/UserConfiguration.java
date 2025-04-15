@@ -23,7 +23,9 @@ import com.joecis.quick_fix.usercase.UserCaseStatus;
 public class UserConfiguration {
 
     @Bean
-    public CommandLineRunner demo(UserRepository userRepository, UserService userService, RoleRepository roleRepository) {
+    public CommandLineRunner demo(UserRepository userRepository,
+                                  UserService userService,
+                                  RoleRepository roleRepository) {
         return (args) -> {
 
             // Initializing Bcrypt instance.

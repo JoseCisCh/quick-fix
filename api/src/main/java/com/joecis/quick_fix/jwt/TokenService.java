@@ -18,7 +18,6 @@ import org.springframework.stereotype.Service;
 import com.joecis.quick_fix.role.Role;
 
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
