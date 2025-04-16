@@ -119,6 +119,15 @@ public class User implements UserDetails {
         this.password = password;
     }
 
+    public User(String email, String username,  String firstName, 
+            String lastName, String password) {
+        this.email = email;
+        this.username = username;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.password = password;
+    }
+
     public User(Long id, String email, 
                 String firstName, String lastName, 
                 String password, Set<Rating> ratings,

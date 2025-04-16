@@ -12,6 +12,13 @@ public class AccountUserDto {
     private String token;
     private Set<Role> authorities;
 
+    public AccountUserDto() {
+    }
+    public AccountUserDto(String username, String firstName, String lastName) {
+        this.username = username;
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
     public Long getId() {
         return id;
     }

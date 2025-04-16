@@ -31,6 +31,15 @@ public class RegisterRequest {
                        "one lowercase, one number, and one special character.")
     private String password;
 
+    public RegisterRequest(@NotBlank @Email String email, @NotBlank @Min(5) String username,
+            @NotBlank @Max(40) String firstName, @NotBlank @Max(50) String lastName,
+            @NotBlank @Pattern(regexp = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$", message = "Password must contain at least one uppercase,one lowercase, one number, and one special character.") String password) {
+        this.email = email;
+        this.username = username;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.password = password;
+    }
     public String getEmail() {
         return email;
     }
