@@ -15,6 +15,11 @@ public class UserDto {
     private Set<NotificationInfo> notifications;
     private Set<Role> authorities;
 
+    public UserDto(String email, String firstName, String lastName) {
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
     public Long getId() {
         return id;
     }

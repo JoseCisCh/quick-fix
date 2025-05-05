@@ -55,8 +55,8 @@ public class TokenService {
         return token;
     }
     
-public Claims validateJwtAndExtractClaims(String jwt) 
-    throws Exception {
+    public Claims validateJwtAndExtractClaims(String jwt) 
+        throws Exception {
         try {
             return Jwts
                 .parser()
