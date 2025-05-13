@@ -26,6 +26,7 @@ import com.joecis.quick_fix.user.UserService;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 
 @RestController
 public class AccountController {
@@ -45,7 +46,7 @@ public class AccountController {
 
     @PostMapping("/login")
     public ResponseEntity<AccountUserDto> login(
-            @RequestBody LoginRequest loginRequest,
+            @RequestBody @Valid LoginRequest loginRequest,
             HttpServletRequest request,
             HttpServletResponse response) {
 
@@ -93,7 +94,7 @@ public class AccountController {
 
     @PostMapping("/register")
     public ResponseEntity<AccountUserDto> register(
-            @RequestBody RegisterRequest registerRequest)
+            @RequestBody @Valid RegisterRequest registerRequest)
             throws UserAlreadyExistsException {
         if(userService.getByUsername(registerRequest.getUsername()) 
                 != null) {

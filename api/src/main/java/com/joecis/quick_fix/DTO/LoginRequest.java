@@ -3,11 +3,12 @@ package com.joecis.quick_fix.DTO;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
 public class LoginRequest {
 
     @NotBlank
-    @Min(5)
+    @Size(min = 5)
     private String username;
     
     @NotBlank

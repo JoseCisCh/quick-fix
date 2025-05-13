@@ -1,10 +1,9 @@
 package com.joecis.quick_fix.DTO;
 
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
 public class RegisterRequest {
 
@@ -13,26 +12,26 @@ public class RegisterRequest {
     private String email;
 
     @NotBlank
-    @Min(5)
+    @Size(min = 5)
     private String username;
     
     @NotBlank
-    @Max(40)
+    @Size(max = 40)
     private String firstName;
 
     @NotBlank
-    @Max(50)
+    @Size(max = 50)
     private String lastName;
 
     @NotBlank
-    @Pattern(regexp = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@$!%*?&])" + 
-                      "[A-Za-z\\d@$!%*?&]{8,}$",
+    @Pattern(regexp = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@$!%*?&#])" + 
+                      "[A-Za-z\\d@$!%*?&#]{8,}$",
              message = "Password must contain at least one uppercase," +
                        "one lowercase, one number, and one special character.")
     private String password;
 
-    public RegisterRequest(@NotBlank @Email String email, @NotBlank @Min(5) String username,
-            @NotBlank @Max(40) String firstName, @NotBlank @Max(50) String lastName,
+    public RegisterRequest(@NotBlank @Email String email, @NotBlank  @Size(min = 5) String username,
+            @NotBlank  @Size(max = 40) String firstName, @NotBlank @Size(max = 50) String lastName,
             @NotBlank @Pattern(regexp = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$", message = "Password must contain at least one uppercase,one lowercase, one number, and one special character.") String password) {
         this.email = email;
         this.username = username;
