@@ -14,6 +14,11 @@ public class AccountUserDto {
 
     public AccountUserDto() {
     }
+
+    public AccountUserDto(String username) {
+        this.username = username;
+    }
+
     public AccountUserDto(String username, String firstName, String lastName) {
         this.username = username;
         this.firstName = firstName;

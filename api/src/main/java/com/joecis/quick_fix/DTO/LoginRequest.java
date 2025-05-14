@@ -12,11 +12,17 @@ public class LoginRequest {
     private String username;
     
     @NotBlank
-    @Pattern(regexp = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@$!%*?&])" +
-                      "[A-Za-z\\d@$!%*?&]{8,}$",
+    @Pattern(regexp = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@$!%*?&#])" +
+                      "[A-Za-z\\d@$!%*?&#]{8,}$",
              message = "Password must contain at least one uppercase," + 
                        "one lowercase, one number, and one special character.")
     private String password;
+
+    public LoginRequest(@NotBlank @Size(min = 5) String username,
+            @NotBlank @Pattern(regexp = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$", message = "Password must contain at least one uppercase,one lowercase, one number, and one special character.") String password) {
+        this.username = username;
+        this.password = password;
+    }
 
     public String getUsername() {
         return username;

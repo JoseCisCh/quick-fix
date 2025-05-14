@@ -70,6 +70,12 @@ public class User implements UserDetails {
     private Set<Notification> notifications;
 
 
+    public User(String username, String firstName, String lastName) {
+        this.username = username;
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+
     public User(String username, String email,
                 String firstName, String lastName,
                 String password, boolean accountNonExpired,
