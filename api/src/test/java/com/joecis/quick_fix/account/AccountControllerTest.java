@@ -269,13 +269,13 @@ public class AccountControllerTest {
 
         LoginRequest userLoginDetails = new LoginRequest(username, password);
         Authentication mockAuth = new UsernamePasswordAuthenticationToken(
-                new User(username, firstName, lastName),
+                new User(1L, username, firstName, lastName),
                 null,
                 Set.of(new Role("USER")));
 
         when(authenticationManager.authenticate(any(Authentication.class)))
                 .thenReturn(mockAuth);
-        when(tokenService.generateToken(any(), any(Set.class)))
+        when(tokenService.generateToken(any(), anySet()))
                 .thenReturn("mockedToken");
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/login")
